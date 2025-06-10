@@ -9,11 +9,6 @@ golang 多线程下载直播流m3u8格式的视屏，跨平台。 你只需指�
 2. 下载 TS 失败重试 （加密的同步解密)
 3. 合并 TS 片段
 
-> 可以下载岛国小电影  
-> 可以下载岛国小电影  
-> 可以下载岛国小电影    
-> 重要的事情说三遍......
-
 ## 效果展示
 ![demo](./demo.gif)
 
@@ -23,7 +18,6 @@ golang 多线程下载直播流m3u8格式的视屏，跨平台。 你只需指�
 - u  m3u8下载地址(http(s)://url/xx/xx/index.m3u8)
 - o  movieName:自定义文件名(默认为movie)不带后缀 (default "movie")
 - n  num:下载线程数(默认24)
-- ht hostType:设置getHost的方式(v1: http(s):// + url.Host + filepath.Dir(url.Path); v2: `http(s)://+ u.Host` (default "v1")
 - c  cookie:自定义请求cookie (例如：key1=v1; key2=v2)
 - r  autoClear:是否自动清除ts文件 (default true)
 - s  InsecureSkipVerify:是否允许不安全的请求(默认0)
@@ -51,8 +45,8 @@ golang 多线程下载直播流m3u8格式的视屏，跨平台。 你只需指�
 
 ```bash
 自己编译：go build -o m3u8-downloader
-简洁使用：./m3u8-downloader  -u=http://example.com/index.m3u8
-完整使用：./m3u8-downloader  -u=http://example.com/index.m3u8 -o=example -n=16 -ht=v1 -c="key1=v1; key2=v2"
+简洁使用：./m3u8-downloader  http://example.com/index.m3u8
+完整使用：./m3u8-downloader  http://example.com/index.m3u8 -o=example -n=16 -ht=v1 -c="key1=v1; key2=v2"
 ```
 
 ### 二进制方式:
@@ -61,9 +55,9 @@ Linux 和 MacOS 和 Windows PowerShell
 
 ```
 简洁使用：
-./m3u8-linux-amd64 -u=http://example.com/index.m3u8
-./m3u8-darwin-amd64 -u=http://example.com/index.m3u8 
-.\m3u8-windows-amd64.exe -u=http://example.com/index.m3u8
+./m3u8-linux-amd64 http://example.com/index.m3u8
+./m3u8-darwin-amd64 http://example.com/index.m3u8 
+.\m3u8-windows-amd64.exe http://example.com/index.m3u8
 
 完整使用：
 ./m3u8-linux-amd64 -u=http://example.com/index.m3u8 -o=example -n=16 -ht=v1 -c="key1=v1; key2=v2"
@@ -80,18 +74,3 @@ Linux 和 MacOS 和 Windows PowerShell
  # Mac darwin amd64平台
  chmod 0755 m3u8-darwin-amd64
  ```
-2.下载失败的情况,请设置 -ht="v1" 或者 -ht="v2" （默认为 v1）
-```golang
-func get_host(Url string, ht string) string {
-    u, err := url.Parse(Url)
-    var host string
-    checkErr(err)
-    switch ht {
-    case "v1":
-        host = u.Scheme + "://" + u.Host + path.Dir(u.Path)
-    case "v2":
-        host = u.Scheme + "://" + u.Host
-    }
-    return host
-}
-```

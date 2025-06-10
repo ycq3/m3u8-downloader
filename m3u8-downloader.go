@@ -74,7 +74,7 @@ func main() {
 }
 
 func Run() {
-	msgTpl := "[功能]:多线程下载直播流m3u8视屏\n[提醒]:下载失败，请使用 -ht=v2 \n[提醒]:下载失败，m3u8 地址可能存在嵌套\n[提醒]:进度条中途下载失败，可重复执行"
+	msgTpl := "[功能]:多线程下载直播流m3u8视屏\n[提醒]:下载失败，m3u8 地址可能存在嵌套\n[提醒]:进度条中途下载失败，可重复执行"
 	fmt.Println(msgTpl)
 	runtime.GOMAXPROCS(runtime.NumCPU())
 	now := time.Now()
@@ -82,6 +82,12 @@ func Run() {
 	// 1、解析命令行参数
 	flag.Parse()
 	m3u8Url := *urlFlag
+
+	// 如果没有通过-u指定URL，但有额外参数，则使用第一个额外参数作为URL
+	if m3u8Url == "" && len(flag.Args()) > 0 {
+		m3u8Url = flag.Args()[0]
+	}
+
 	maxGoroutines := *nFlag
 	movieName := *oFlag
 	autoClearFlag := *rFlag
